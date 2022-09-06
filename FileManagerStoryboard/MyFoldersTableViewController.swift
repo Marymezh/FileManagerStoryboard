@@ -43,6 +43,28 @@ class MyFoldersTableViewController: UITableViewController {
     }
     
     @IBAction func createNewFile(_ sender: Any) {
+        let alertController = UIAlertController(title: "Create new text file", message: nil, preferredStyle: .alert)
+        alertController.addTextField { textfield in
+            textfield.placeholder = "Enter new file name"
+        }
+        alertController.addTextField { textfield in
+            textfield.placeholder = "Enter the text to save in the new file"
+        }
+        let createAction = UIAlertAction(title: "Create", style: .default) { action in
+            if let fileName = alertController.textFields?[0].text,
+               fileName != "",
+               let contentsOfFile = alertController.textFields?[1].text,
+               let data = contentsOfFile.data(using: .utf8){
+                
+                let newURL = self.url.appendingPathComponent(fileName)
+                self.fileManager.createFile(atPath: newURL.path, contents: data, attributes: [:])
+                self.tableView.reloadData()
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(createAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     @IBAction func createNewImage(_ sender: Any) {
