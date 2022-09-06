@@ -108,6 +108,20 @@ class MyFoldersTableViewController: UITableViewController {
         
         return cell
     }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let item = listOfContents[indexPath.row]
+        
+        var isFolder: ObjCBool = false
+        fileManager.fileExists(atPath: item.path, isDirectory: &isFolder)
+        if isFolder.boolValue {
+            let tvc = storyboard?.instantiateViewController(withIdentifier: "TableVC") as! MyFoldersTableViewController
+            tvc.url = item
+            navigationController?.pushViewController(tvc, animated: true)
+        } else {
+            tableView.deselectRow(at: indexPath, animated: true)
+        }
+    }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
@@ -142,14 +156,16 @@ extension MyFoldersTableViewController: UIImagePickerControllerDelegate, UINavig
         dismiss(animated: true)
         
         guard let image = info[.editedImage] as? UIImage else { return }
-        let data = image.pngData()
+        
         let alertController = UIAlertController(title: "New Image", message: nil, preferredStyle: .alert)
         alertController.addTextField { textfield in
             textfield.placeholder = "Enter image name"
         }
+        
         let enterNameAction = UIAlertAction(title: "Save", style: .default) { action in
             if let newImageName = alertController.textFields?[0].text,
-               newImageName != "" {
+               newImageName != "",
+               let data = image.pngData() {
                 let imagePath = self.url.appendingPathComponent(newImageName)
                 self.fileManager.createFile(
                     atPath: imagePath.path,

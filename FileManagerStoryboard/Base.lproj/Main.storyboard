@@ -9,7 +9,7 @@
         <!--My Folders Table View Controller-->
         <scene sceneID="2HR-kv-vYw">
             <objects>
-                <tableViewController id="xPY-vK-P84" customClass="MyFoldersTableViewController" customModule="FileManagerStoryboard" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TableVC" id="xPY-vK-P84" customClass="MyFoldersTableViewController" customModule="FileManagerStoryboard" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="jY9-9Z-aPn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -93,4 +93,5 @@
             <point key="canvasLocation" x="-27.536231884057973" y="35.491071428571423"/>
         </scene>
     </scenes>
+    <color key="tintColor" red="0.59414597660000001" green="0.34439434009999997" blue="0.87058823529999996" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>
