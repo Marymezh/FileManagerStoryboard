@@ -8,7 +8,7 @@
 import UIKit
 
 class MyFoldersTableViewController: UITableViewController {
-    
+
     private var fileManager = FileManager.default
     private lazy var url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
     private var listOfContents: [URL] {
@@ -20,6 +20,26 @@ class MyFoldersTableViewController: UITableViewController {
     }
     
     @IBAction func createNewFolder(_ sender: Any) {
+        let alertController = UIAlertController(title: "Create New Folder", message: nil, preferredStyle: .alert)
+        alertController.addTextField { textfield in
+            textfield.placeholder = "Enter new foler name"
+        }
+        let createAction = UIAlertAction(title: "Create", style: .default) { action in
+            if let folderName = alertController.textFields?[0].text,
+               folderName != "" {
+                let newURL = self.url.appendingPathComponent(folderName)
+                do {
+                    try self.fileManager.createDirectory(at: newURL, withIntermediateDirectories: false)
+                } catch {
+                    self.showErrorAlert(text: "Unable to create new folder")
+                }
+                self.tableView.reloadData()
+            }
+        }
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        alertController.addAction(createAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
     }
     
     @IBAction func createNewFile(_ sender: Any) {
