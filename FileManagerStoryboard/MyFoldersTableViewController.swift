@@ -29,7 +29,9 @@ class MyFoldersTableViewController: UITableViewController {
                folderName != "" {
                 let newURL = self.url.appendingPathComponent(folderName)
                 do {
-                    try self.fileManager.createDirectory(at: newURL, withIntermediateDirectories: false)
+                    try self.fileManager.createDirectory(
+                        at: newURL,
+                        withIntermediateDirectories: false)
                 } catch {
                     self.showErrorAlert(text: "Unable to create new folder")
                 }
@@ -57,7 +59,10 @@ class MyFoldersTableViewController: UITableViewController {
                let data = contentsOfFile.data(using: .utf8){
                 
                 let newURL = self.url.appendingPathComponent(fileName)
-                self.fileManager.createFile(atPath: newURL.path, contents: data, attributes: [:])
+                self.fileManager.createFile(
+                    atPath: newURL.path,
+                    contents: data,
+                    attributes: [:])
                 self.tableView.reloadData()
             }
         }
@@ -68,6 +73,7 @@ class MyFoldersTableViewController: UITableViewController {
     }
     
     @IBAction func createNewImage(_ sender: Any) {
+        showImagePickerController()
     }
     
     private func showErrorAlert(text: String) {
@@ -119,3 +125,41 @@ class MyFoldersTableViewController: UITableViewController {
         }
     }
 }
+
+// MARK: - Image Picker Controller
+
+extension MyFoldersTableViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func showImagePickerController() {
+        let picker = UIImagePickerController()
+        picker.allowsEditing = true
+        picker.delegate = self
+        picker.sourceType = .photoLibrary
+        present(picker, animated: true)
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        dismiss(animated: true)
+        
+        guard let image = info[.editedImage] as? UIImage else { return }
+        let data = image.pngData()
+        let alertController = UIAlertController(title: "New Image", message: nil, preferredStyle: .alert)
+        alertController.addTextField { textfield in
+            textfield.placeholder = "Enter image name"
+        }
+        let enterNameAction = UIAlertAction(title: "Save", style: .default) { action in
+            if let newImageName = alertController.textFields?[0].text,
+               newImageName != "" {
+                let imagePath = self.url.appendingPathComponent(newImageName)
+                self.fileManager.createFile(
+                    atPath: imagePath.path,
+                    contents: data,
+                    attributes: nil)
+                self.tableView.reloadData()
+            }
+        }
+        alertController.addAction(enterNameAction)
+        present(alertController, animated: true)
+    }
+}
+
