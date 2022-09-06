@@ -119,7 +119,19 @@ class MyFoldersTableViewController: UITableViewController {
             tvc.url = item
             navigationController?.pushViewController(tvc, animated: true)
         } else {
-            tableView.deselectRow(at: indexPath, animated: true)
+            let imageVC = ImageViewController()
+            let textVC = TextViewController()
+            let url = listOfContents[indexPath.row]
+            
+             do {
+                 let content = try String(contentsOf: url, encoding: .utf8)
+                 textVC.textlabel.text = content
+                 navigationController?.present(textVC, animated: true)
+            } catch {
+                imageVC.imageView.image = UIImage(contentsOfFile: url.path)
+                navigationController?.present(imageVC, animated: true)
+            }
+            
         }
     }
 
