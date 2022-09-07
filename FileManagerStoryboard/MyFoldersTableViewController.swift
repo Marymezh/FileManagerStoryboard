@@ -105,10 +105,10 @@ class MyFoldersTableViewController: UITableViewController {
         fileManager.fileExists(atPath: item.path, isDirectory: &isFolder)
         if isFolder.boolValue {
             cell.detailTextLabel?.text = "Folder"
-            //         cell.textLabel?.font = UIFont.systemFont(ofSize: 16, weight: .semibold)
         } else {
             cell.detailTextLabel?.text = ""
         }
+        
         cell.textLabel?.text = item.lastPathComponent
         
         return cell
@@ -124,20 +124,18 @@ class MyFoldersTableViewController: UITableViewController {
             tvc.url = item
             navigationController?.pushViewController(tvc, animated: true)
         } else {
-            let imageVC = ImageViewController()
-            let textVC = TextViewController()
-            let url = listOfContents[indexPath.row]
+            let item = listOfContents[indexPath.row]
             
-             do {
-                 let content = try String(contentsOf: url, encoding: .utf8)
-                 textVC.textView.text = content
-                 textVC.fileName = url.lastPathComponent
-                 navigationController?.present(textVC, animated: true)
+            do {
+                let content = try String(contentsOf: item, encoding: .utf8)
+                let textVC = TextViewController(fileURL: item)
+                textVC.textView.text = content
+                navigationController?.present(textVC, animated: true)
             } catch {
-                imageVC.imageView.image = UIImage(contentsOfFile: url.path)
+                let imageVC = ImageViewController()
+                imageVC.imageView.image = UIImage(contentsOfFile: item.path)
                 navigationController?.present(imageVC, animated: true)
             }
-            
         }
     }
 
