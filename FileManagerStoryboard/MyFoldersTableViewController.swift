@@ -19,6 +19,11 @@ class MyFoldersTableViewController: UITableViewController {
         super.viewDidLoad()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
+    
     @IBAction func createNewFolder(_ sender: Any) {
         let alertController = UIAlertController(title: "Create New Folder", message: nil, preferredStyle: .alert)
         alertController.addTextField { textfield in
@@ -125,7 +130,8 @@ class MyFoldersTableViewController: UITableViewController {
             
              do {
                  let content = try String(contentsOf: url, encoding: .utf8)
-                 textVC.textlabel.text = content
+                 textVC.textView.text = content
+                 textVC.fileName = url.lastPathComponent
                  navigationController?.present(textVC, animated: true)
             } catch {
                 imageVC.imageView.image = UIImage(contentsOfFile: url.path)

@@ -11,15 +11,16 @@ class TextViewController: UIViewController {
 
     private var inset: CGFloat { return 30 }
     
-    let textlabel: UILabel = {
-        let textlabel = UILabel()
-        textlabel.translatesAutoresizingMaskIntoConstraints = false
-        textlabel.textColor = .white
-        textlabel.font = UIFont.systemFont(ofSize: 20, weight: .regular)
-        textlabel.textAlignment = .left
-        textlabel.numberOfLines = 0
-        textlabel.sizeToFit()
-        return textlabel
+    var fileName = ""
+    
+    let textView: UITextView = {
+        let textView = UITextView()
+        textView.translatesAutoresizingMaskIntoConstraints = false
+        textView.textColor = .white
+        textView.font = UIFont.systemFont(ofSize: 20, weight: .regular)
+        textView.backgroundColor = .black
+        textView.alpha = 0.5
+        return textView
     }()
     
     private let backgroundView: UIView = {
@@ -36,9 +37,37 @@ class TextViewController: UIViewController {
         setupIU()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+//        let filepath1 = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)[0].path
+//
+//        let file: FileHandle? = FileHandle(forUpdatingAtPath: filepath1)
+//
+//        if file == nil {
+//            print("File open failed")
+//        } else {
+//            let data = (textView.text as
+//                            NSString).data(using: String.Encoding.utf8.rawValue)
+//            file?.seek(toFileOffset: 10)
+//            file?.write(data!)
+//            file?.closeFile()
+//        }
+        let stringToSave = textView.text ?? ""
+        let path = FileManager.default.urls(for: .documentDirectory,
+                                            in: .userDomainMask)[0].appendingPathComponent(fileName)
+        if let stringData = stringToSave.data(using: .utf8) {
+            do {
+                try stringData.write(to: path)
+            } catch {
+                print (error.localizedDescription)
+            }
+        }
+    }
+    
    private func setupIU () {
         view.addSubview(backgroundView)
-        view.addSubview(textlabel)
+        view.addSubview(textView)
         
         let constraints = [
             backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -46,10 +75,10 @@ class TextViewController: UIViewController {
             backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
-            textlabel.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: inset),
-            textlabel.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -inset),
-            textlabel.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: inset),
-            textlabel.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -inset)
+            textView.topAnchor.constraint(equalTo: backgroundView.topAnchor, constant: inset),
+            textView.trailingAnchor.constraint(equalTo: backgroundView.trailingAnchor, constant: -inset),
+            textView.leadingAnchor.constraint(equalTo: backgroundView.leadingAnchor, constant: inset),
+            textView.bottomAnchor.constraint(equalTo: backgroundView.bottomAnchor, constant: -inset)
             
         ]
         
