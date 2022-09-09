@@ -124,16 +124,14 @@ class MyFoldersTableViewController: UITableViewController {
             tvc.url = item
             navigationController?.pushViewController(tvc, animated: true)
         } else {
-            let item = listOfContents[indexPath.row]
-            
             do {
                 let content = try String(contentsOf: item, encoding: .utf8)
                 let textVC = TextViewController(fileURL: item)
                 textVC.textView.text = content
                 navigationController?.present(textVC, animated: true)
             } catch {
-                let imageVC = ImageViewController()
-                imageVC.imageView.image = UIImage(contentsOfFile: item.path)
+                let imageVC = storyboard?.instantiateViewController(withIdentifier: "ImageVC") as! ImageViewController
+                imageVC.fileURL = item
                 navigationController?.present(imageVC, animated: true)
             }
         }
