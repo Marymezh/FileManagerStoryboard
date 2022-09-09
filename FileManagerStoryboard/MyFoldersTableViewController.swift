@@ -123,18 +123,17 @@ class MyFoldersTableViewController: UITableViewController {
             let tvc = storyboard?.instantiateViewController(withIdentifier: "TableVC") as! MyFoldersTableViewController
             tvc.url = item
             navigationController?.pushViewController(tvc, animated: true)
+            
+        } else if let _ = UIImage(contentsOfFile: item.path)  {
+            let imageVC = storyboard?.instantiateViewController(withIdentifier: "ImageVC") as! ImageViewController
+            imageVC.fileURL = item
+            navigationController?.present(imageVC, animated: true)
+            
         } else {
-            do {
-                let content = try String(contentsOf: item, encoding: .utf8)
-                let textVC = TextViewController(fileURL: item)
-                textVC.textView.text = content
+                let textVC = storyboard?.instantiateViewController(withIdentifier: "TextVC") as! TextViewController
+                textVC.fileURL = item
                 navigationController?.present(textVC, animated: true)
-            } catch {
-                let imageVC = storyboard?.instantiateViewController(withIdentifier: "ImageVC") as! ImageViewController
-                imageVC.fileURL = item
-                navigationController?.present(imageVC, animated: true)
             }
-        }
     }
 
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
