@@ -8,7 +8,7 @@
 import UIKit
 
 class MyFoldersTableViewController: UITableViewController {
-
+    
     private var fileManager = FileManager.default
     private lazy var url = fileManager.urls(for: .documentDirectory, in: .userDomainMask)[0]
     private var listOfContents: [URL] {
@@ -43,6 +43,7 @@ class MyFoldersTableViewController: UITableViewController {
                 self.tableView.reloadData()
             }
         }
+        
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
         alertController.addAction(createAction)
         alertController.addAction(cancelAction)
@@ -89,12 +90,12 @@ class MyFoldersTableViewController: UITableViewController {
     }
     
     // MARK: - Table view data source
-
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return listOfContents.count
     }
-
+    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
@@ -130,16 +131,16 @@ class MyFoldersTableViewController: UITableViewController {
             navigationController?.present(imageVC, animated: true)
             
         } else {
-                let textVC = storyboard?.instantiateViewController(withIdentifier: "TextVC") as! TextViewController
-                textVC.fileURL = item
-                navigationController?.present(textVC, animated: true)
-            }
+            let textVC = storyboard?.instantiateViewController(withIdentifier: "TextVC") as! TextViewController
+            textVC.fileURL = item
+            navigationController?.present(textVC, animated: true)
+        }
     }
-
+    
     override func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
         return true
     }
-
+    
     override func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         if editingStyle == .delete {
             let item = listOfContents[indexPath.row]

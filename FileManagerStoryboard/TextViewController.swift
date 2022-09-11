@@ -38,7 +38,6 @@ class TextViewController: UIViewController {
                 print (error.localizedDescription)
             }
         }
-        
     }
     
     private func saveData () {
@@ -52,12 +51,4 @@ class TextViewController: UIViewController {
             }
         }
     }
-    
-    private func showErrorAlert(text: String) {
-        let alert = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
-        alert.addAction(cancelAction)
-        present(alert, animated: true)
-    }
-    
 }

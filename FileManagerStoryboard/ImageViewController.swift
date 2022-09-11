@@ -29,7 +29,6 @@ class ImageViewController: UIViewController {
         } else {
             showErrorAlert(text: "Image is not available")
         }
-
     }
     
     private func showErrorAlert(text: String) {
