@@ -17,8 +17,7 @@ class MyFoldersTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(dismissVC))
-        navigationItem.leftBarButtonItem?.tintColor = .red
+//            navigationItem.setHidesBackButton(true, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -84,6 +83,7 @@ class MyFoldersTableViewController: UITableViewController {
         showImagePickerController()
     }
     
+    
     private func showErrorAlert(text: String) {
         let alert = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -94,7 +94,6 @@ class MyFoldersTableViewController: UITableViewController {
     @objc func dismissVC() {
         navigationController?.popToRootViewController(animated: true)
     }
-    
     
     // MARK: - Table view data source
     

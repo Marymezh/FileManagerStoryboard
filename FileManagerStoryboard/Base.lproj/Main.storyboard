@@ -8,10 +8,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--My Folders Table View Controller-->
+        <!--MyFoldersVC-->
         <scene sceneID="2HR-kv-vYw">
             <objects>
-                <tableViewController storyboardIdentifier="TableVC" id="xPY-vK-P84" customClass="MyFoldersTableViewController" customModule="FileManagerStoryboard" customModuleProvider="target" sceneMemberID="viewController">
+                <tableViewController storyboardIdentifier="TableVC" title="MyFoldersVC" id="xPY-vK-P84" customClass="MyFoldersTableViewController" customModule="FileManagerStoryboard" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" id="jY9-9Z-aPn">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -163,7 +163,7 @@
                                 <state key="normal" title="Button"/>
                                 <buttonConfiguration key="configuration" style="plain" title="Button"/>
                                 <connections>
-                                    <segue destination="xPY-vK-P84" kind="show" id="xKi-DF-RNo"/>
+                                    <action selector="buttonIsTapped:" destination="e6A-XR-o4h" eventType="touchUpInside" id="XXF-Q6-d8I"/>
                                 </connections>
                             </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9mG-eL-Mna">
@@ -187,6 +187,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="FRF-rU-ODb"/>
+                    <connections>
+                        <outlet property="button" destination="XlA-OP-ttW" id="E83-Kf-WO6"/>
+                        <outlet property="passwordTextField" destination="R2H-mq-D6S" id="ckb-Ru-KxK"/>
+                        <outlet property="titleLabel" destination="9mG-eL-Mna" id="2MZ-aT-bLD"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="jN7-XM-aAp" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
