@@ -17,6 +17,8 @@ class MyFoldersTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Log out", style: .plain, target: self, action: #selector(dismissVC))
+        navigationItem.leftBarButtonItem?.tintColor = .red
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -88,6 +90,11 @@ class MyFoldersTableViewController: UITableViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true)
     }
+    
+    @objc func dismissVC() {
+        navigationController?.popToRootViewController(animated: true)
+    }
+    
     
     // MARK: - Table view data source
     
