@@ -69,7 +69,9 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupUI()
         setLoginMode()
+
         
     }
     
@@ -81,6 +83,28 @@ class LoginViewController: UIViewController {
             mode = .createPassword
             print(password.isSet)
         }
+    }
+    
+    private func setupUI () {
+        
+        titleLabel.textColor = .purple
+        titleLabel.font = UIFont.systemFont(ofSize: 35, weight: .bold)
+        titleLabel.layer.shadowRadius = 6
+        titleLabel.layer.shadowOpacity = 0.2
+        titleLabel.layer.shadowOffset = CGSize(width: 7, height: 7)
+        
+        passwordTextField.layer.borderWidth = 0.2
+        passwordTextField.layer.borderColor = UIColor.purple.cgColor
+        passwordTextField.layer.shadowRadius = 6
+        passwordTextField.layer.shadowOpacity = 0.7
+        passwordTextField.layer.shadowOffset = CGSize(width: 7, height: 7)
+        
+        button.layer.cornerRadius = 6
+        button.layer.borderWidth = 0.1
+        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.shadowRadius = 6
+        button.layer.shadowOpacity = 0.7
+        button.layer.shadowOffset = CGSize(width: 7, height: 7)
     }
     
     @IBAction func buttonIsTapped(_ sender: Any) {
@@ -105,7 +129,6 @@ class LoginViewController: UIViewController {
 
         case .confirmPassword:
             passwordInput = entry
-            passwordTextField.placeholder = textFieldPlaceHolder
             if passwordInput == initialPasswordInput {
                 password.save(passwordInput) { (success, error) in
                     guard success,
@@ -121,14 +144,12 @@ class LoginViewController: UIViewController {
                 showErrorAlert(text: "Password is not matching!")
                 passwordInput = ""
                 initialPasswordInput = ""
-                passwordTextField.placeholder = textFieldPlaceHolder
                 passwordTextField.text = ""
                 mode = .createPassword
                 return
             }
         case .signIn:
             passwordInput = entry
-            passwordTextField.placeholder = textFieldPlaceHolder
             guard password.isValid(passwordInput) else {
                 showErrorAlert(text: "Wrong password! Access is denied! Try again")
                 passwordTextField.text = ""
@@ -139,8 +160,11 @@ class LoginViewController: UIViewController {
     }
     
     private func performLogin() {
-        let tableVC = storyboard?.instantiateViewController(withIdentifier: "TableVC") as! MyFoldersTableViewController
-        navigationController?.pushViewController(tableVC, animated: true)
+//        let tableVC = storyboard?.instantiateViewController(withIdentifier: "TableVC") as! MyFoldersTableViewController
+//        navigationController?.pushViewController(tableVC, animated: true)
+        let tabBarVC = (storyboard?.instantiateViewController(withIdentifier: "TabBarVC")) as! TabBarController
+        navigationController?.pushViewController(tabBarVC, animated: true)
+        
     }
     
     private func showErrorAlert(text: String) {
