@@ -14,10 +14,9 @@ class MyFoldersTableViewController: UITableViewController {
     private var listOfContents: [URL] {
         return (try? FileManager.default.contentsOfDirectory(at: url, includingPropertiesForKeys: nil)) ?? []
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-            //            navigationItem.setHidesBackButton(true, animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -83,7 +82,6 @@ class MyFoldersTableViewController: UITableViewController {
         showImagePickerController()
     }
     
-    
     private func showErrorAlert(text: String) {
         let alert = UIAlertController(title: "Error", message: text, preferredStyle: .alert)
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
@@ -98,15 +96,19 @@ class MyFoldersTableViewController: UITableViewController {
     // MARK: - Table view data source
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         return listOfContents.count
     }
-    
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath)
         
-        let item = listOfContents[indexPath.row]
+        var files = self.listOfContents
+        
+        if UserDefaults.standard.string(forKey: "sortAcs") == "1" {
+            files.sort(by: {$0.absoluteString < $1.absoluteString})
+        }
+        
+        let item = files[indexPath.row]
         
         var isFolder: ObjCBool = false
         fileManager.fileExists(atPath: item.path, isDirectory: &isFolder)
@@ -115,7 +117,6 @@ class MyFoldersTableViewController: UITableViewController {
         } else {
             cell.detailTextLabel?.text = ""
         }
-        
         cell.textLabel?.text = item.lastPathComponent
         
         return cell

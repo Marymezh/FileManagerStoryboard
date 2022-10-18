@@ -51,17 +51,12 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		1A32514A28CDBA8300AE2AC5 /* Controllers */ = {
+		1A32514A28CDBA8300AE2AC5 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				1A32514B28CDBB0300AE2AC5 /* LoginViewController.swift */,
-				1A8F7FD028D0968100B8E704 /* TabBarController.swift */,
-				1A90C24228C756BF0069A904 /* MyFoldersTableViewController.swift */,
 				1A8F7FD228D09E9D00B8E704 /* SettingsTableViewController.swift */,
-				1A90C24828CB29E30069A904 /* ImageViewController.swift */,
-				1A32514128CB6DDA00AE2AC5 /* TextViewController.swift */,
 			);
-			path = Controllers;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		1A32515028CDC92800AE2AC5 /* Models */ = {
@@ -70,6 +65,25 @@
 				1A32515128CDC94100AE2AC5 /* Password.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		1A8F3C3C28FEC9BB001EC71F /* LogIn */ = {
+			isa = PBXGroup;
+			children = (
+				1A32514B28CDBB0300AE2AC5 /* LoginViewController.swift */,
+			);
+			path = LogIn;
+			sourceTree = "<group>";
+		};
+		1A8F3C3D28FEC9DE001EC71F /* Folders and files */ = {
+			isa = PBXGroup;
+			children = (
+				1A8F7FD028D0968100B8E704 /* TabBarController.swift */,
+				1A90C24228C756BF0069A904 /* MyFoldersTableViewController.swift */,
+				1A90C24828CB29E30069A904 /* ImageViewController.swift */,
+				1A32514128CB6DDA00AE2AC5 /* TextViewController.swift */,
+			);
+			path = "Folders and files";
 			sourceTree = "<group>";
 		};
 		1A90C22228C755C70069A904 = {
@@ -93,7 +107,9 @@
 			children = (
 				1A90C22E28C755C70069A904 /* AppDelegate.swift */,
 				1A90C23028C755C70069A904 /* SceneDelegate.swift */,
-				1A32514A28CDBA8300AE2AC5 /* Controllers */,
+				1A8F3C3C28FEC9BB001EC71F /* LogIn */,
+				1A8F3C3D28FEC9DE001EC71F /* Folders and files */,
+				1A32514A28CDBA8300AE2AC5 /* Settings */,
 				1A32515028CDC92800AE2AC5 /* Models */,
 				1A90C23428C755C70069A904 /* Main.storyboard */,
 				1A90C23728C755CC0069A904 /* Assets.xcassets */,

@@ -14,15 +14,15 @@ class SettingsTableViewController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        mySwitch.isOn = false
+        mySwitch.isOn = true
 
     }
     
     @IBAction func mySwitch(_ sender: Any) {
         if (sender as! UISwitch).isOn {
-            print("user switched on")
+            UserDefaults.standard.set("1", forKey: "sortAcs")
         } else {
-            print("switch is off")
+            UserDefaults.standard.set("0", forKey: "sortAcs")
         }
     }
     
