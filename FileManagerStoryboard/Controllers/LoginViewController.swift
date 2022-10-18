@@ -11,6 +11,7 @@ enum Mode {
     case createPassword
     case confirmPassword
     case signIn
+    case changePassword
 }
 
 class LoginViewController: UIViewController {
@@ -21,23 +22,20 @@ class LoginViewController: UIViewController {
     
     private let password = Password()
     
-    private var mode: Mode = .createPassword {
-        didSet {
-            titleLabel.text = screenTitle
-            button.setTitle(buttonTitle, for: .normal)
-            passwordTextField.placeholder = textFieldPlaceHolder
-        }
-    }
-    
-    private var originalMode: Mode = .createPassword
-    
+    var mode: Mode?
+
     private var screenTitle: String {
         switch mode {
-        case .createPassword,
-                .confirmPassword:
+        case .createPassword:
             return "Registration"
+        case .confirmPassword:
+            return "Confirmation"
         case .signIn:
             return "Sign in"
+        case .changePassword:
+            return "Enter new password"
+        default:
+            return ""
         }
     }
     
@@ -49,56 +47,62 @@ class LoginViewController: UIViewController {
             return "Confirm password"
         case .signIn:
             return "Login"
+        case .changePassword:
+            return "Set new password"
+        default:
+            return ""
         }
     }
     
     private var textFieldPlaceHolder: String {
         switch mode {
-        case .createPassword:
+        case .createPassword,
+                .changePassword:
             return "Please enter password"
         case .confirmPassword:
             return "Please re-enter your password"
         case .signIn:
             return "Enter your password"
+        default:
+            return ""
         }
     }
     
     private var passwordInput: String = ""
     private var initialPasswordInput: String = ""
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupUI()
         setLoginMode()
-
-        
+        setupUI()
     }
     
     private func setLoginMode() {
-        if password.isSet {
-            mode = .signIn
-            print(password.isSet)
-        } else {
-            mode = .createPassword
-            print(password.isSet)
+        if mode == nil {
+            if password.isSet {
+                mode = .signIn
+            } else {
+                mode = .createPassword
+            }
         }
     }
     
     private func setupUI () {
-        
+        titleLabel.text = screenTitle
         titleLabel.textColor = .purple
         titleLabel.font = UIFont.systemFont(ofSize: 35, weight: .bold)
         titleLabel.layer.shadowRadius = 6
         titleLabel.layer.shadowOpacity = 0.2
         titleLabel.layer.shadowOffset = CGSize(width: 7, height: 7)
         
+        passwordTextField.placeholder = textFieldPlaceHolder
         passwordTextField.layer.borderWidth = 0.2
         passwordTextField.layer.borderColor = UIColor.purple.cgColor
         passwordTextField.layer.shadowRadius = 6
         passwordTextField.layer.shadowOpacity = 0.7
         passwordTextField.layer.shadowOffset = CGSize(width: 7, height: 7)
         
+        button.setTitle(buttonTitle, for: .normal)
         button.layer.cornerRadius = 6
         button.layer.borderWidth = 0.1
         button.layer.borderColor = UIColor.black.cgColor
@@ -126,6 +130,7 @@ class LoginViewController: UIViewController {
             initialPasswordInput = entry
             passwordTextField.text = ""
             mode = .confirmPassword
+            setupUI()
 
         case .confirmPassword:
             passwordInput = entry
@@ -141,13 +146,15 @@ class LoginViewController: UIViewController {
                     self.performLogin()
                 }
             } else {
-                showErrorAlert(text: "Password is not matching!")
+                showErrorAlert(text: "Password is not matching! Start all over again.")
                 passwordInput = ""
                 initialPasswordInput = ""
                 passwordTextField.text = ""
                 mode = .createPassword
+                setupUI()
                 return
             }
+            
         case .signIn:
             passwordInput = entry
             guard password.isValid(passwordInput) else {
@@ -156,15 +163,28 @@ class LoginViewController: UIViewController {
                 return
             }
             performLogin()
+            return
+            
+        case .changePassword:
+            initialPasswordInput = entry
+            passwordTextField.text = ""
+            mode = .confirmPassword
+            setupUI()
+            return
+            
+        default:
+            return
         }
     }
     
     private func performLogin() {
-//        let tableVC = storyboard?.instantiateViewController(withIdentifier: "TableVC") as! MyFoldersTableViewController
-//        navigationController?.pushViewController(tableVC, animated: true)
+        if navigationController == nil {
+            self.dismiss(animated: true)
+            return
+        } else {
         let tabBarVC = (storyboard?.instantiateViewController(withIdentifier: "TabBarVC")) as! TabBarController
         navigationController?.pushViewController(tabBarVC, animated: true)
-        
+        }
     }
     
     private func showErrorAlert(text: String) {
@@ -173,5 +193,4 @@ class LoginViewController: UIViewController {
         alert.addAction(cancelAction)
         present(alert, animated: true)
     }
-    
 }
