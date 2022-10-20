@@ -13,7 +13,7 @@ class SettingsTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         mySwitch.isOn = true
 
     }

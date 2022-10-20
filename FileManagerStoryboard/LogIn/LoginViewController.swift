@@ -73,6 +73,7 @@ class LoginViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        navigationController?.navigationBar.isHidden = true
         setLoginMode()
         setupUI()
     }
@@ -96,6 +97,7 @@ class LoginViewController: UIViewController {
         titleLabel.layer.shadowOffset = CGSize(width: 7, height: 7)
         
         passwordTextField.placeholder = textFieldPlaceHolder
+        passwordTextField.backgroundColor = .white
         passwordTextField.layer.borderWidth = 0.2
         passwordTextField.layer.borderColor = UIColor.purple.cgColor
         passwordTextField.layer.shadowRadius = 6
